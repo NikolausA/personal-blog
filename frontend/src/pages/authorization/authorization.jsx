@@ -1,6 +1,7 @@
 import { TextField, Button, Box, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
-export const Registration = () => {
+export const Authorization = () => {
   return (
     <Box
       component="form"
@@ -21,17 +22,8 @@ export const Registration = () => {
       }}
     >
       <Typography variant="h5" gutterBottom align="center">
-        Регистрация
+        Авторизация
       </Typography>
-      <TextField
-        fullWidth
-        label="Имя пользователя"
-        name="username"
-        // value={formData.username}
-        // onChange={handleChange}
-        // error={!!errors.username}
-        // helperText={errors.username}
-      />
       <TextField
         fullWidth
         label="Электронная почта"
@@ -52,16 +44,6 @@ export const Registration = () => {
         // error={!!errors.password}
         // helperText={errors.password}
       />
-      <TextField
-        fullWidth
-        label="Подтверждение пароля"
-        name="confirmPassword"
-        type="password"
-        // value={formData.confirmPassword}
-        // onChange={handleChange}
-        // error={!!errors.confirmPassword}
-        // helperText={errors.confirmPassword}
-      />
       <Button
         type="submit"
         variant="contained"
@@ -70,6 +52,7 @@ export const Registration = () => {
       >
         Отправить
       </Button>
+      <Link to={"/register"}>Зарегистрироваться</Link>
     </Box>
   );
 };

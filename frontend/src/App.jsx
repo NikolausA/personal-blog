@@ -1,15 +1,17 @@
 // import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Registration } from "./pages";
+import { Authorization, Registration } from "./pages";
+import { Navbar } from "./components";
 
 function App() {
   // const [count, setCount] = useState(0);
 
   return (
     <>
-      <Link to={"/register"}>Register</Link>
+      <Navbar />
       <Routes>
+        <Route path="/login" element={<Authorization />} />
         <Route path="/register" element={<Registration />} />
       </Routes>
     </>
