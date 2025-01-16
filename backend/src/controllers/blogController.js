@@ -1,25 +1,39 @@
 const { BlogPost } = require("../models/BlogPost");
 const { User } = require("../models/User");
+const { upload } = require("../services/fileUploadService");
 
 // Создание записи блога
 const createPost = async (req, res) => {
-  const { title, content, mediaUrl } = req.body;
   const userId = req.user.id; // Идентификатор пользователя из middleware
 
-  try {
-    const newPost = await BlogPost.create({
-      title,
-      content,
-      mediaUrl,
-      userId,
-    });
+  // Подключение middleware Multer для обработки файла
+  upload.single("media")(req, res, async (err) => {
+    if (err) {
+      return res
+        .status(400)
+        .json({ message: "File upload error", error: err.message });
+    }
 
-    return res
-      .status(201)
-      .json({ message: "Blog post created successfully", post: newPost });
-  } catch (error) {
-    return res.status(500).json({ message: "Error creating blog post", error });
-  }
+    const { title, content } = req.body;
+    const mediaUrl = req.file ? `/uploads/${req.file.filename}` : null; // Путь к файлу
+
+    try {
+      const newPost = await BlogPost.create({
+        title,
+        content,
+        mediaUrl,
+        userId,
+      });
+
+      return res
+        .status(201)
+        .json({ message: "Blog post created successfully", post: newPost });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Error creating blog post", error });
+    }
+  });
 };
 
 // Получение всех записей блога
