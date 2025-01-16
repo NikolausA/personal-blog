@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Authorization, Registration } from "./pages";
+import { AddNewPost, Authorization, Registration } from "./pages";
 import { Navbar } from "./components";
 
 function App() {
@@ -11,6 +11,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
+        <Route path="/addNewPost" element={<AddNewPost />} />
         <Route path="/login" element={<Authorization />} />
         <Route path="/register" element={<Registration />} />
       </Routes>
