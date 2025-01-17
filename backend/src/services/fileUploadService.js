@@ -3,7 +3,9 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    const uploadPath = path.join(__dirname, "../uploads");
+    console.log("Saving file to:", uploadPath);
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -16,7 +18,7 @@ const fileFilter = (req, file, cb) => {
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Unsupported file type"), false);
+    cb(new Error(`Unsupported file type: ${file.mimetype}`), false);
   }
 };
 

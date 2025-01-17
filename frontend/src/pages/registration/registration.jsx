@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { request } from "../../utils/request";
 import { registrationFormSchema } from "../../form-schemas";
+import { setUser } from "../../actions";
 import { API_URL } from "../../constants";
 import { TextField, Button, Box, Typography } from "@mui/material";
 
@@ -28,21 +30,19 @@ export const Registration = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = ({ username, email, password }) => {
     request(`${API_URL}/auth/register`, "POST", { username, email, password })
       .then((response) => {
-        const { name, token, redirect, redirectUrl, error } = response;
+        const { id, username, token, redirect, redirectUrl, error } = response;
 
         if (token) {
           localStorage.setItem("token", token);
         }
-        if (name) {
-          console.log(name);
-          // dispatch({
-          //   type: "LOGIN",
-          //   payload: { name },
-          // });
+        if (username) {
+          console.log(username);
+          dispatch(setUser({ id, username }));
         }
         if (error) {
           setServerErrorMessage(error);

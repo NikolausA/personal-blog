@@ -33,15 +33,8 @@ export const AddNewPost = () => {
     formData.append("title", title);
     formData.append("content", text);
     if (media) {
-      formData.append("mediaUrl", media);
+      formData.append("media", media);
     }
-
-    // const formValues = watch();
-    // const mediaFile = watch("media");
-
-    // console.log("Form Data:", formData);
-    // console.log("Form values:", formValues);
-    // console.log("Media file:", mediaFile);
 
     request(`${API_URL}/blog/create`, "POST", formData)
       .then((response) => {

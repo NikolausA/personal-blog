@@ -23,6 +23,7 @@ const register = async (req, res) => {
 
     return res.status(201).json({
       message: "User registered successfully",
+      id: newUser.id,
       username: newUser.username,
       redirect: true,
       redirectUrl: "/",
@@ -52,6 +53,7 @@ const login = async (req, res) => {
     return res.status(200).json({
       message: "Login successful",
       token,
+      id: user.id,
       username: user.username,
       redirect: true,
       redirectUrl: "/",

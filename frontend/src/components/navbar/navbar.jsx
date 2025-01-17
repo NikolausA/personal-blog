@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ACTION_TYPE } from "../../actions";
+import { selectUserName } from "../../selectors";
 import {
   AppBar,
   Toolbar,
@@ -10,24 +13,27 @@ import {
 import LoginIcon from "@mui/icons-material/Login";
 
 export const Navbar = () => {
-  const handleClick = () => {
+  const dispatch = useDispatch();
+  const userName = useSelector(selectUserName);
+  const handleLogout = () => {
     localStorage.setItem("token", "");
+    dispatch(ACTION_TYPE.LOGOUT);
   };
 
   return (
     <AppBar position="fixed" color="primary">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          My App
+          Персональный блог
         </Typography>
         <Box sx={{ display: "flex", gap: 2 }}>
           <Link to="/addNewPost">
-            <Button color="white">Добавить пост</Button>
+            <Button sx={{ color: "white" }}>Добавить пост</Button>
           </Link>
           <Button color="inherit">Placeholder 2</Button>
-          <Button color="inherit">Placeholder 3</Button>
+          <Box>{`Имя пользователя: ${userName}`}</Box>
           <Link to="/">
-            <Button color="white" onClick={handleClick}>
+            <Button sx={{ color: "white" }} onClick={handleLogout}>
               Exit
             </Button>
           </Link>

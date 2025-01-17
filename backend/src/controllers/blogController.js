@@ -1,14 +1,24 @@
+const multer = require("multer");
+const { upload } = require("../services/fileUploadService");
 const { BlogPost } = require("../models/BlogPost");
 const { User } = require("../models/User");
-const { upload } = require("../services/fileUploadService");
 
 // Создание записи блога
 const createPost = async (req, res) => {
   const userId = req.user.id; // Идентификатор пользователя из middleware
+  console.log("File received:", req.file);
 
   // Подключение middleware Multer для обработки файла
   upload.single("media")(req, res, async (err) => {
-    if (err) {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file provided" });
+    }
+    if (err instanceof multer.MulterError) {
+      return res
+        .status(400)
+        .json({ message: "Multer error", error: err.message });
+    } else if (err) {
+      // Другие ошибки
       return res
         .status(400)
         .json({ message: "File upload error", error: err.message });
