@@ -1,1 +1,1 @@
-export const selectUserName = ({ user }) => user.userName;
+export const selectUserName = ({ user }) => user.username;

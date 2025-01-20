@@ -2,7 +2,7 @@ import { ACTION_TYPE } from "../actions";
 
 const initialUserState = {
   id: null,
-  userName: null,
+  username: "",
 };
 
 export const userReducer = (state = initialUserState, { type, payload }) => {

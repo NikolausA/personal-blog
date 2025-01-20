@@ -41,7 +41,6 @@ export const Registration = () => {
           localStorage.setItem("token", token);
         }
         if (username) {
-          console.log(username);
           dispatch(setUser({ id, username }));
         }
         if (error) {

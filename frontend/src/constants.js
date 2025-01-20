@@ -10,3 +10,5 @@ export const SUPPORTED_MEDIA_TYPES = [
   "video/mp4",
   "video/mpeg",
 ];
+
+export const DEFAULT_IMAGE = "http://localhost:3000/uploads/default_image.png";

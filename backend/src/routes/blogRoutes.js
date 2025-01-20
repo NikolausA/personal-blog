@@ -10,6 +10,8 @@ router.post("/create", authMiddleware, blogController.createPost);
 // Получение всех записей блога
 router.get("/", blogController.getPosts);
 
+router.put("/:id", authMiddleware, blogController.editPost);
+
 // Удаление записи блога (защищено авторизацией)
 router.delete("/:id", authMiddleware, blogController.deletePost);
 

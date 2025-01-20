@@ -14,7 +14,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./uploads:/usr/src/app/src/uploads
+      - ./uploads:/usr/src/app/uploads:rw
     depends_on:
       - postgres
 
