@@ -10,7 +10,6 @@ if (!fs.existsSync(uploadPath)) {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // const uploadPath = path.join(__dirname, "../uploads");
     console.log("Saving file to:", uploadPath);
     cb(null, uploadPath);
   },
@@ -31,7 +30,7 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // Ограничение: 50MB
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: fileFilter,
 });
 

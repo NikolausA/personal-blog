@@ -3,12 +3,19 @@ const { upload } = require("../services/fileUploadService");
 const { BlogPost } = require("../models/BlogPost");
 const { User } = require("../models/User");
 
-// Создание записи блога
+/**
+ * Создание нового поста.
+ * @param {Object} req - Объект запроса Express
+ * @param {Object} req.body - Тело запроса
+ * @param {string} req.body.title - Заголовок поста
+ * @param {string} req.body.content - Содержимое поста
+ * @param {Object} req.file - Загруженный файл
+ * @param {Object} res - Объект ответа Express
+ */
 const createPost = async (req, res) => {
-  const userId = req.user.id; // Идентификатор пользователя из middleware
+  const userId = req.user.id;
   console.log("File received:", req.file);
 
-  // Подключение middleware Multer для обработки файла
   upload.single("media")(req, res, async (err) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file provided" });
@@ -18,14 +25,13 @@ const createPost = async (req, res) => {
         .status(400)
         .json({ message: "Multer error", error: err.message });
     } else if (err) {
-      // Другие ошибки
       return res
         .status(400)
         .json({ message: "File upload error", error: err.message });
     }
 
     const { title, content } = req.body;
-    const mediaUrl = req.file ? `/uploads/${req.file.filename}` : null; // Путь к файлу
+    const mediaUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     try {
       const newPost = await BlogPost.create({
@@ -46,7 +52,11 @@ const createPost = async (req, res) => {
   });
 };
 
-// Получение всех записей блога
+/**
+ * Получение списка постов.
+ * @param {Object} req - Объект запроса Express
+ * @param {Object} res - Объект ответа Express
+ */
 const getPosts = async (req, res) => {
   try {
     const posts = await BlogPost.findAll({
@@ -72,11 +82,21 @@ const getPost = async (req, res) => {
   }
 };
 
+/**
+ * Редактирование поста.
+ * @param {Object} req - Объект запроса Express
+ * @param {Object} req.params - Параметры маршрута
+ * @param {number} req.params.id - ID поста
+ * @param {Object} req.body - Тело запроса
+ * @param {string} [req.body.title] - Новый заголовок поста
+ * @param {string} [req.body.content] - Новое содержимое поста
+ * @param {Object} req.file - Загруженный файл
+ * @param {Object} res - Объект ответа Express
+ */
 const editPost = async (req, res) => {
   const { id } = req.params;
-  const userId = req.user.id; // Идентификатор пользователя из middleware
+  const userId = req.user.id;
 
-  // Подключение middleware Multer для обработки файла
   upload.single("media")(req, res, async (err) => {
     if (err instanceof multer.MulterError) {
       return res
@@ -89,7 +109,6 @@ const editPost = async (req, res) => {
     }
 
     try {
-      // Поиск поста с автором
       const post = await BlogPost.findOne({
         where: { id, userId },
         include: [{ model: User, attributes: ["username"] }], // Получение имени автора
@@ -101,11 +120,10 @@ const editPost = async (req, res) => {
           .json({ message: "Post not found or unauthorized" });
       }
 
-      // Обновление данных
       const { title, content } = req.body;
       const mediaUrl = req.file
         ? `/uploads/${req.file.filename}`
-        : post.mediaUrl; // Если новый файл не загружен, оставить старый
+        : post.mediaUrl;
 
       post.title = title || post.title;
       post.content = content || post.content;
@@ -122,10 +140,16 @@ const editPost = async (req, res) => {
   });
 };
 
-// Удаление записи блога
+/**
+ * Удаление поста.
+ * @param {Object} req - Объект запроса Express
+ * @param {Object} req.params - Параметры маршрута
+ * @param {number} req.params.id - ID поста
+ * @param {Object} res - Объект ответа Express
+ */
 const deletePost = async (req, res) => {
   const { id } = req.params;
-  const userId = req.user.id; // Идентификатор пользователя из middleware
+  const userId = req.user.id;
 
   try {
     const post = await BlogPost.findOne({ where: { id, userId } });

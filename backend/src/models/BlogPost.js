@@ -19,7 +19,7 @@ const BlogPost = sequelize.define(
       allowNull: false,
     },
     mediaUrl: {
-      type: DataTypes.STRING, // Хранение URL для медиа-контента (картинок, видео)
+      type: DataTypes.STRING,
       allowNull: true,
     },
     userId: {

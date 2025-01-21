@@ -10,15 +10,14 @@ export const Main = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // Получение данных и проверка существования изображений
     request(`${API_URL}/blog`).then(async (res) => {
       const mappedPosts = mapPostInfo(res);
       const validatedPosts = await Promise.all(
         mappedPosts.map(async (post) => {
           const imageExists = await checkImageExists(post.image);
           if (!imageExists) {
-            console.warn(`Изображение отсутствует: ${post.image}`);
-            return { ...post, image: DEFAULT_IMAGE }; // Путь к заглушке
+            // console.warn(`Изображение отсутствует: ${post.image}`);
+            return { ...post, image: DEFAULT_IMAGE };
           }
           return post;
         })
@@ -41,7 +40,7 @@ export const Main = () => {
         spacing={3}
         sx={{
           mt: 4,
-          justifyContent: "center", // Центровка содержимого, если есть лишнее пространство
+          justifyContent: "center",
         }}
       >
         {posts.length ? (

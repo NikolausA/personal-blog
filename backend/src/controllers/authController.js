@@ -2,6 +2,15 @@ const { User } = require("../models/User");
 const jwt = require("../utils/jwt");
 const bcrypt = require("bcryptjs");
 
+/**
+ * Регистрирует нового пользователя.
+ * @param {Object} req - Объект запроса Express
+ * @param {Object} req.body - Данные для регистрации
+ * @param {string} req.body.username - Имя пользователя
+ * @param {string} req.body.email - Email пользователя
+ * @param {string} req.body.password - Пароль пользователя
+ * @param {Object} res - Объект ответа Express
+ */
 const register = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -34,6 +43,14 @@ const register = async (req, res) => {
   }
 };
 
+/**
+ * Аутентифицирует пользователя.
+ * @param {Object} req - Объект запроса Express
+ * @param {Object} req.body - Данные для входа
+ * @param {string} req.body.email - Email пользователя
+ * @param {string} req.body.password - Пароль пользователя
+ * @param {Object} res - Объект ответа Express
+ */
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -62,14 +79,6 @@ const login = async (req, res) => {
     return res.status(500).json({ message: "Error logging in", error });
   }
 };
-
-// const logout = (req, res) => {
-//   return res.status(200).json({
-//     message: "Logout successful",
-//     redirect: true,
-//     redirectUrl: "/",
-//   });
-// };
 
 module.exports = {
   register,

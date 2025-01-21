@@ -177,11 +177,9 @@ export const Post = () => {
             >
               Сохранить
             </Button>
-            {/* <Box></Box> */}
           </Box>
         </Box>
       ) : (
-        // Отображение поста
         <>
           <Typography variant="h3" component="h1" textAlign="center">
             {title}
